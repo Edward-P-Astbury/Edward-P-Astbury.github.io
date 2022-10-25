@@ -2,14 +2,15 @@
 layout: page
 title: About
 permalink: /about/
+published: true
 ---
 
-Some information about you!
+I am a software developer who enjoys developing software solutions utilising object-orientated, procedural, and functional programming concepts.
 
-### More Information
+### Interests
 
-A place to include any other types of information that you'd like to include about yourself.
+I am interested in growing my proficiency in the Microsoft technology stack. In my spare time I am learning about reverse engineering and network programming
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[nedastbury@gmail.com](mailto:nedastbury@gmail.com)
