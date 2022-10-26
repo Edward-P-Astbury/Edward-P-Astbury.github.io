@@ -9,7 +9,7 @@ This is a setup guide in how to get [facial recognition](https://en.wikipedia.or
 
 1. Create a new Windows Form (.NET Framework) project
 
-![Windows Form new project]({{site.baseurl}}/images/windows-form-new-project.png "an image title")
+![Windows Form new project]({{site.baseurl}}/images/windows-form-new-project.png "Windows Form")
 
 2. Add the following [Emgu CV](https://www.nuget.org/packages/EmguCV) NuGet package to the project. 
 
@@ -140,7 +140,7 @@ Importantly we utilise the `.Predict()` method which takes in a image and predic
 
 The below image shows the final result of the program.
 
-![program-demo-image]({{site.baseurl}}/images/program-demo.png)
+![program-demo-image]({{site.baseurl}}/images/program-demo.png "Program Demo")
 
 The three buttons located on the left-hand plane are responsible for all the core program features.
 
@@ -150,7 +150,7 @@ The three buttons located on the left-hand plane are responsible for all the cor
 
 After entering a name into the text-box field and saving the image via the `Save Image` button you are able to use the `Scan Faces` button and see how the facial recognition is now able to determine who you are!
 
-![edward-face-demo]({{site.baseurl}}/images/demo-edward-face.png)
+![edward-face-demo]({{site.baseurl}}/images/demo-edward-face.png "Face Demo")
 
 ### Conclusion
 
