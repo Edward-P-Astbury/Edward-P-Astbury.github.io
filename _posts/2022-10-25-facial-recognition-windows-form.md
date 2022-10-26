@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 ---
 ## Creating Facial Recognition using Emgu CV within a Windows Form
 
