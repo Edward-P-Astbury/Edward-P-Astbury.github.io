@@ -9,7 +9,7 @@ I am a software developer who enjoys developing software solutions utilising obj
 
 ### Interests
 
-I am interested in growing my proficiency in the Microsoft technology stack. In my spare time I am learning about reverse engineering and network programming
+I am interested in growing my proficiency in the Microsoft technology stack. In my spare time I am learning about reverse engineering and network programming.
 
 ### Contact me
 

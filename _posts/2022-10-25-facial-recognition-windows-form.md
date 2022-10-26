@@ -13,9 +13,9 @@ This is a setup guide in how to get [facial recognition](https://en.wikipedia.or
 
 2. Add the following [Emgu CV](https://www.nuget.org/packages/EmguCV) NuGet package to the project. 
 
-3. Run a initial build of the project to ensure bin and debug directories are created
+3. Run an initial build of the project to ensure bin and debug directories are created.
 
-4. in your project's `WindowsFormsFaceRecognition\WindowsFormsFaceRecognition\bin\Debug` directory create a new folder named `Haarcascade`. 
+4. In your project's `WindowsFormsFaceRecognition\WindowsFormsFaceRecognition\bin\Debug` directory create a new folder named `Haarcascade`. 
 
 5. The following [XML](https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml) file containing serialized Haar Cascade detector of faces needs to be added to the newly created `Haarcascade` directory. Harr Cascade is one of the more powerful face detection algorithms.
 
@@ -57,9 +57,9 @@ The _important_ methods pertaining to the facial recognition are as follows:
 
 The `DetectFace()` method works by getting an Emgu.CV `Image` of the current frame and saving the output to a [`Mat`](https://docs.opencv.org/4.x/d3/d63/classcv_1_1Mat.html) object (used to store complicated vectors, matrices, grayscale/colour images and so forth). The colour space is also converted from BGR to GRAY. In simple terms, the image is converted to a grayscale image as grayscale images require less complicated algorithms, ultimately reducing computational overhead.
 
-Once the image is converted to a grayscale image the `CVInvoke.EqualizeHist(mat, mat)` function is called which takes in our `mat` object and then makes the algorithm normalises the brightness and increases the contrast of the image.
+Once the image is converted to a grayscale image the `CVInvoke.EqualizeHist(mat, mat)` function is called, which takes in our `mat` object and then makes the algorithm normalise the brightness and increase the contrast of the image.
 
-We then create a array of System.Drawing `Rectangle` objects and assign it to `CascadeClassifier.DetectMultiScale(mat, 1.1, 4)` which returns rectangular regions in a image that the cascade has been trained for. In this case the cascade has been provided a frontal face training data set provided by the following [XML](https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml).
+We then create an array of System.Drawing `Rectangle` objects and assign it to `CascadeClassifier.DetectMultiScale(mat, 1.1, 4)` which returns rectangular regions in an image that the cascade has been trained for. In this case the cascade has been provided a frontal face training data set supplied by the following [XML](https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml).
 
 The next part of the function is relatively self-explanatory. We iterate through our `Rectangle` array, draw the visual rectangle with `CvInvoke.Rectangle()`, save the image, set the image ROI (region of interest) to the rectangle capturing the face, and call the `TrainedImage()` and `CheckName(image, rectangle)` methods.
 
@@ -95,7 +95,7 @@ The next part of the function is relatively self-explanatory. We iterate through
         }
 ```
 
-The `TrainedImage()` method operates by iterating through our saved images and then utilising the `EigenFaceRecognizer` class - facial recognition class that works with grayscale images. The `eigenFaceRecognizer.Train` method is called which as the name of the method suggests it trains the face recogniser to be trained with the passed in images and labels.
+The `TrainedImage()` method operates by iterating through our saved images and then utilising the `EigenFaceRecognizer` class - a facial recognition class that works with grayscale images. The `eigenFaceRecognizer.Train` method is called, which, as the name of the method suggests, trains the face recogniser to be trained with the passed in images and labels.
 
 ***CheckName(Image<Bgr, byte>, Rectangle)***
 
@@ -130,11 +130,11 @@ The `TrainedImage()` method operates by iterating through our saved images and t
     }
 ```
 
-The `CheckName(Image<Bgr, byte>, Rectangle)` method funtions by passing in a `Image<Bgr, byte>` which will then be assigned to a local `Image<Gray, byte>` variable through calling the `.Convert()` method which enables the conversion of a image to a specified colour and depth. The image is also resized at this stage using `.Resize()` to align the image with the same size of the .JPG images.
+The `CheckName(Image<Bgr, byte>, Rectangle)` method funtions by passing in an `Image<Bgr, byte>` which will then be assigned to a local `Image<Gray, byte>` variable through calling the `.Convert()` method, which enables the conversion of an image to a specified colour and depth. The image is also resized at this stage, using `.Resize()` to align the image to the same size of the .JPG images.
 
-As done before we utlise the `CVInvoke.EqualizeHist(image, image)` to normalise the image attributes - brightness and contrast.
+As demonstrated before, we utlise the `CVInvoke.EqualizeHist(image, image)` to normalise the image attributes - brightness and contrast.
 
-Importantly we utilise the `.Predict()` method which takes in a image and predicts the label attribute of the image based on the previously provided training images to the `eigenFaceRecognizer` object. If a face is detected, we will successfully pass the `if` check and display the image of the individual through a Windows Form `PictureBox`. Then we assign the person's name to the face based on the `predictionResult` Label field. After this we simply place some text of the person's name utilising `CvInvoke.PutText`.
+Importantly, we utilise the `.Predict()` method, which takes in an image and predicts the label attribute of the image based on the previously provided training images to the `eigenFaceRecognizer` object. If a face is detected, we will successfully pass the `if` check and display the image of the individual through a Windows Form `PictureBox`. Then we assign the person's name to the face based on the `predictionResult` Label field. After this we simply place some text identifying the person's name utilising `CvInvoke.PutText`.
 
 ### Project Demonstration
 
@@ -146,14 +146,14 @@ The three buttons located on the left-hand plane are responsible for all the cor
 
 - Video Camera Capture - opens the currently connected webcam
 - Save Image - saves a frame from the camera stream and trims the image region to the individual face
-- Scan Faces - Enables the face detection based on the saved images
+- Scan Faces - Enables face detection based on the saved images
 
-After entering a name into the text-box field and saving the image via the `Save Image` button you are able to use the `Scan Faces` button and see how the facial recognition is now able to determine who you are!
+After entering a name into the text-box field and saving the image via the `Save Image` button you are able to use the `Scan Faces` button and see that the facial recognition is now able to determine who you are!
 
 ![edward-face-demo]({{site.baseurl}}/images/demo-edward-face.png "Face Demo")
 
 ### Conclusion
 
-It is quite clear that through utilising a pre-existing .NET wrapper library to the open source computer vision library, OpenCV, we are able to achieve facial recognition with minimal code as a lot of the complexity is abstracted away from us due to leveraging the [Emgu CV](https://www.nuget.org/packages/EmguCV) library. This in tandem with the already optimised XML [data set](https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml) we are left with only needing to invoke/call the necessary functions provided by Emgu CV.
+It is quite clear that through utilising a pre-existing .NET wrapper library to the open source computer vision library, OpenCV, we are able to achieve facial recognition with minimal code, as a lot of the complexity is abstracted away from us due to leveraging the [Emgu CV](https://www.nuget.org/packages/EmguCV) library. This, in tandem with the already optimised XML [data set](https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml) results in us needing only to invoke/call the necessary functions provided by Emgu CV.
 
-Unfortunately in my development I was unable to implement the [Azure Face API](https://azure.microsoft.com/en-us/products/cognitive-services/face/#overview). This was primarily due to the restrictions of certain features I wanted to employ. The detection of face attributes, such as, smile, hair colour, facial hair, etc. is currently being limited to Microsoft managed customers and partners due to the responsible AI principles. 
+In developing this facial recognition program I have not yet been able to implement the [Azure Face API](https://azure.microsoft.com/en-us/products/cognitive-services/face/#overview). This was primarily due to the restrictions of certain features I wanted to employ. The detection of face attributes, such as, smile, hair colour, facial hair, etc. is currently being limited to Microsoft managed customers and partners due to the responsible AI principles. 
