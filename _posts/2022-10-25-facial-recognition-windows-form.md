@@ -11,13 +11,13 @@ This is a setup guide in how to get [facial recognition](https://en.wikipedia.or
 
 ![Windows Form new project]({{site.baseurl}}/images/windows-form-new-project.png "Windows Form")
 
-3. Add the following [Emgu CV](https://www.nuget.org/packages/EmguCV) NuGet package to the project. 
+2. Add the following [Emgu CV](https://www.nuget.org/packages/EmguCV) NuGet package to the project. 
 
-4. Run an initial build of the project to ensure bin and debug directories are created.
+3. Run an initial build of the project to ensure bin and debug directories are created.
 
-5. In your project's `WindowsFormsFaceRecognition\WindowsFormsFaceRecognition\bin\Debug` directory create a new folder named `Haarcascade`. 
+4. In your project's `WindowsFormsFaceRecognition\WindowsFormsFaceRecognition\bin\Debug` directory create a new folder named `Haarcascade`. 
 
-6. The following [XML](https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml) file containing serialized Haar Cascade detector of faces needs to be added to the newly created `Haarcascade` directory. Harr Cascade is one of the more powerful face detection algorithms.
+5. The following [XML](https://github.com/opencv/opencv/blob/master/data/haarcascades/haarcascade_frontalface_alt.xml) file containing serialized Haar Cascade detector of faces needs to be added to the newly created `Haarcascade` directory. Harr Cascade is one of the more powerful face detection algorithms.
 
 ### Coding the project
 
