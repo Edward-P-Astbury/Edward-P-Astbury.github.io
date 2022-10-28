@@ -7,9 +7,9 @@ This is a setup guide in how to get [facial recognition](https://en.wikipedia.or
 
 ### Setting up the project
 
-1. Create a new Windows Form (.NET Framework) project
-
 <!-- ![Windows Form new project]({{site.baseurl}}/images/windows-form-new-project.png "Windows Form") -->
+
+1. Create a new Windows Form (.NET Framework) project
 
 2. Add the following [Emgu CV](https://www.nuget.org/packages/EmguCV) NuGet package to the project. 
 
