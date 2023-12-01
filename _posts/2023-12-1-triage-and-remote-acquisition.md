@@ -11,17 +11,9 @@ Pertinent device data will not always reside within a local storage drive. In so
 
 ## Three most popular cloud providers
 
-| Company         | Service         |
-| :-------------: | :-------------: |
-| Microsoft       | Azure           |
-| Amazon          | AWS             |
-| Google          | GCP             |
-
-| Month    | Savings |
-| -------- | ------- |
-| January  | $250    |
-| February | $80     |
-| March    | $420    |
+*Microsoft* - **Azure**
+*Amazon* -    **AWS**
+*Google* -    **GCP**
 
 > These providers tend to have [SaaS](https://en.wikipedia.org/wiki/Software_as_a_service) alternatives and front-end services associated to their cloud. For example, `Office 365` and `Google Workspace`.
 
