@@ -17,6 +17,12 @@ Pertinent device data will not always reside within a local storage drive. In so
 | Amazon          | AWS             |
 | Google          | GCP             |
 
+| Month    | Savings |
+| -------- | ------- |
+| January  | $250    |
+| February | $80     |
+| March    | $420    |
+
 > These providers tend to have [SaaS](https://en.wikipedia.org/wiki/Software_as_a_service) alternatives and front-end services associated to their cloud. For example, `Office 365` and `Google Workspace`.
 
 ## Data to acquire
