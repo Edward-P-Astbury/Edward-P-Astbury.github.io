@@ -1,29 +1,29 @@
 ---
 published: true
 ---
-## Remote Acquisition and Triage
+# Remote Acquisition and Triage
 
 Pertinent device data will not always reside within a local storage drive. In some instances data needs to be pulled from online storage accounts and local servers. This writeup will attempt to provide a brief overview of what to look out for when performing remote acquisition and triage. It is by no means a solution for every possible use case and is merely collated experience and findings.
 
 > It is important to liaison with the IT Administrator and staff. You will not know their internal server structure better then them.
 
-### Cloud Providers
+## Cloud Providers
 
-#### Three most popular cloud providers
+## Three most popular cloud providers
 
-| Company       | Service       |
-| ------------- |:-------------:|
-| Microsoft     | Azure         |
-| Amazon        | AWS           |
-| Google        | GCP           |
+| Company         | Service         |
+| :-------------: | :-------------: |
+| Microsoft       | Azure           |
+| Amazon          | AWS             |
+| Google          | GCP             |
 
 > These providers tend to have [SaaS](https://en.wikipedia.org/wiki/Software_as_a_service) alternatives and front-end services associated to their cloud. For example, `Office 365` and `Google Workspace`.
 
-#### Data to acquire
+## Data to acquire
 
 Regardless of whether it is Microsoft's Azure, Amazon's AWS or Google's GCP if the IT infrastructure utilizes some form of cloud provider, **assuming we are granted credentials**, data can be obtained.
 
-#### Sign-in and audit logs
+## Sign-in and audit logs
 
 All of the providers will have a slightly different user interface, however, the approach to acquire their data remains the same:
 
@@ -33,15 +33,15 @@ Browse their tenant, filter to the user you want, download/export the necessary 
 
 > If the subject of your triage pertains to malware possibly infecting a Azure Domain collecting all logs from the Domain Controller will yield relevant information.
 
-#### OneDrive downloads
+## OneDrive downloads
 
-1. Forensic image
+1. **Forensic image**
     * Utilise your preferred imaging software and perform a logical image over the OneDrive directory
     ![ftk-logical]({{site.baseurl}}/images/ftk-logical.gif "FTK Imager")
-2. Office 365 portal
+2. **Office 365 portal**
     * Navigate to the user and download a .ZIP of the user's OneDrive (*assuming admin*)
     ![onedrive-portal]({{site.baseurl}}/images/onedrive-portal.png "One Drive Portal")
-3. Powershell script
+3. **Powershell script**
     * A [powershell script](https://www.sharepointdiary.com/2021/09/how-to-download-all-files-from-onedrive-for-business.html) with the correctly supplied parameters is able to somewhat automate the process
 
     ```powershell
@@ -90,7 +90,7 @@ Browse their tenant, filter to the user you want, download/export the necessary 
     }
     ```
 
-#### Amazon Web Services (AWS)
+## Amazon Web Services (AWS)
 
 Download Amazon S3 (Simple Storage Service) Bucket's via the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
@@ -108,28 +108,28 @@ aws s3 cp s3://nameofbucket/secret.txt C:\triagefolder\secret.txt
 s3://nameofbucket C:\triagefolder\ ‐‐recursive
 ```
 
-#### Local server
+## Local server
 
 In the instance of a local server (LAN) the approach is **not** going to be as uniform as all local servers will differ and are not bound to the standards, configurations and layouts of the cloud providers.
 
 I found success with the following methodology with a local *Linux* server running *CentOS*.
 
-1. Connect your PC/laptop to the same network as the server via ethernet cable
-2. Assign your PC to a useable static host address within the same local network
+1. **Connect your PC/laptop to the same network as the server via ethernet cable**
+2. **Assign your PC to a useable static host address within the same local network**
     * Server IP could be on a `10.0.1.0/16` network for example
     * `/16 = 255.255.0.0`
     * Determining the number of hosts addresses is `2^(32 - subnet mask)`. In this case, it's `2^(32 - 16) = 2^16 = 65536` usable hosts
     * Valid range from `10.0.0.1` to `10.0.255.254`, excluding the network address (`10.0.0.0`) and the broadcast address (`10.0.255.255`).
-    * ![local-network-changes]({{site.baseurl}}/images/ftk-logical.gif "Changing Network Settings")
-    * A `ipconfig /renew` command might be required
-3. Access the server
+    * ![local-network-changes]({{site.baseurl}}/images/local-network-changes.gif "Changing Network Settings")
+3. **Access the server**
     * Validate connection to the server via a `ping` command.
     * Browse to the server directory via file explorer using the server host IP address, for example, `\\10.0.1.1`
     * Perform logical image (**requires** the server to mapped as a network drive) otherwise compress the files: `tar -cvf archive_name.tar file_to_archive`
+    * A `ipconfig /renew` command might be required as well as changing firewall rules
 
 > If there is a *time constraint* then **compressing** the files/directories of interest can be done over a logical forensic image (compressing preserves some form of file metadata).
 
-#### Registry Keys and Group Policy
+## Registry Keys and Group Policy
 
 When copying contents from the cloud to our local storage device we need to consider organisation policy.
 
@@ -151,15 +151,27 @@ Disable the Windows Registry Key responsible for blocking external storage devic
 3. Go to `HKEY_LOCAL_MACHINE \ SYSTEM \ CurrentControlSet \ Services \ USBSTOR`
 4. Change the value to **3** ![usbstor]({{site.baseurl}}/images/usbstor.png "Changing USBSTOR Registry Key")
 
-#### FileZilla
+## FileZilla
 
-TODO
+In the instance of a FTP (File Transfer Protocol) server utilising a *GUI* tool like the [FileZilla](https://filezilla-project.org/) client is ideal.
 
-#### Outlook email acquisition
+Launch FileZilla and select `File` and then `Site Manager`.
 
-TODO
+Provide the necessary host, username, password and port number (defaults to 21 if left blank). ![filezilla-client]({{site.baseurl}}/images/filezilla-client.png "FileZilla Client")
 
-#### Closing thoughts
+## Outlook email acquisition
+
+1. Export the mail directly from the local machine via the Outlook executable
+2. Setup a delegate account within Office 365 on the user of interest (allows someone else to access another user's mailbox on their behalf)
+    1. Navigate to Exchange Admin Center
+    2. Access Mailbox Delegation
+    3. Select the user's mailbox and add a delegate 
+
+> If you are pulling down emails and waiting for them to sync a good way to verify is by viewing the size of the **.OST** file located in `C:\Users\your_username\AppData\Local\Microsoft\Outlook`.
+
+## Closing thoughts
+
+Within Office 365 if there is concerns about the user deleting and accessing emails the user can be placed in a account [Litigation Hold](https://learn.microsoft.com/en-us/exchange/policy-and-compliance/holds/litigation-holds?view=exchserver-2019) which essentially audits the account and enables the admin to retain emails, even if the user deletes them from their machine.
 
 It is important to remember that the person who signed up for the Azure/365 service (typically the IT admin) will automatically have Global Administrator (GA) access.
 
