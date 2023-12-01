@@ -98,34 +98,33 @@ The `TrainedImage()` method operates by iterating through our saved images and t
 ***CheckName(Image<Bgr, byte>, Rectangle)***
 
 ```csharp
-        private void CheckName(Image<Bgr, byte> resultImage, Rectangle face)
+private void CheckName(Image<Bgr, byte> resultImage, Rectangle face)
+{
+    try
+    {
+        if (FaceDetectionOn)
         {
-            try
+            Image<Gray, byte> image = resultImage.Convert<Gray, byte>().Resize(100, 100, Inter.Cubic);
+            CvInvoke.EqualizeHist(image, image);
+            FaceRecognizer.PredictionResult predictionResult = eigenFaceRecognizer.Predict(image);
+            
+            if (predictionResult.Label != -1 && predictionResult.Distance < distance)
             {
-                if (FaceDetectionOn)
-                {
-                    Image<Gray, byte> image = resultImage.Convert<Gray, byte>().Resize(100, 100, Inter.Cubic);
-                    CvInvoke.EqualizeHist(image, image);
-                    FaceRecognizer.PredictionResult predictionResult = eigenFaceRecognizer.Predict(image);
-                  
-                    if (predictionResult.Label != -1 && predictionResult.Distance < distance)
-                    {
-                        picBoxFrameSmall.Image = trainedFaces[predictionResult.Label].Bitmap;
-                        personName = names[predictionResult.Label].Replace(Environment.CurrentDirectory + "\\Image\\", "").Replace(".jpg", "");
-                        CvInvoke.PutText(frame, personName, new Point(face.X - 2, face.Y - 2), FontFace.HersheyPlain, 1.0, new Bgr(Color.LimeGreen).MCvScalar);
-                    }
-                    else
-                    {
-                        CvInvoke.PutText(frame, "UNKNOWN", new Point(face.X - 2, face.Y - 2), FontFace.HersheyPlain, 1.0, new Bgr(Color.OrangeRed).MCvScalar);
-                    }
-                }
+                picBoxFrameSmall.Image = trainedFaces[predictionResult.Label].Bitmap;
+                personName = names[predictionResult.Label].Replace(Environment.CurrentDirectory + "\\Image\\", "").Replace(".jpg", "");
+                CvInvoke.PutText(frame, personName, new Point(face.X - 2, face.Y - 2), FontFace.HersheyPlain, 1.0, new Bgr(Color.LimeGreen).MCvScalar);
             }
-            catch
+            else
             {
-                // error handling
+                CvInvoke.PutText(frame, "UNKNOWN", new Point(face.X - 2, face.Y - 2), FontFace.HersheyPlain, 1.0, new Bgr(Color.OrangeRed).MCvScalar);
             }
         }
     }
+    catch
+    {
+        // error handling
+    }
+}
 ```
 
 The `CheckName(Image<Bgr, byte>, Rectangle)` method funtions by passing in an `Image<Bgr, byte>` which will then be assigned to a local `Image<Gray, byte>` variable through calling the `.Convert()` method, which enables the conversion of an image to a specified colour and depth. The image is also resized at this stage, using `.Resize()` to align the image to the same size of the .JPG images.
